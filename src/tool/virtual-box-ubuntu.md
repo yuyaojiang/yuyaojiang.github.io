@@ -1,4 +1,7 @@
+[TOC]
+
 # virtual-box安装ubuntu18.04 问题汇总
+
 ## 屏幕小的问题
 环境版本：
 
