@@ -1,4 +1,3 @@
-[TOC]
 
 # virtual-box安装ubuntu18.04 问题汇总
 
@@ -34,3 +33,27 @@ ubuntu 18.04
 sudo usermod -a -G vboxsf yuyaojiang
 reboot
 ```
+
+## apt install xxx
+
+当apt install xxx出现下图错误时：
+
+![](picture/apt-install-error.png)
+
+E: Could not get lock /var/lib/dpkg/lock – open (11: Resource temporarily unavailable)
+
+E: Unable to lock the administration directory (/var/lib/dpkg/), is another process using it?
+
+解决办法：
+
+1、查看使用apt命令的进程：
+```
+ps aux | grep -i apt
+```
+产生如下输出：
+
+![](picture/apt-install-ps.png)
+
+表示当前有进程在使用apt程序，可以等一会在使用该命令，原因时ubuntu18.04版本会每天定时更新和安全有关的deb包
+
+
