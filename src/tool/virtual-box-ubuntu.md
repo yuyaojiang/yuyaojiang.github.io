@@ -23,9 +23,9 @@ ubuntu 18.04
 解决办法：
 在show application里面搜索display，将scale调整为200%
 
-![](picture/ubuntu2.1.png)
+![](picture/virtual-box-ubuntu/ubuntu2.1.png)
 
-![](picture/ubuntu2.2.png)
+![](picture/virtual-box-ubuntu/ubuntu2.2.png)
 
 ## 共享文件夹无权限访问
 解决办法：将用户加入到vboxsf组里
@@ -38,7 +38,7 @@ reboot
 
 当apt install xxx出现下图错误时：
 
-![](picture/apt-install-error.png)
+![](picture/virtual-box-ubuntu/apt-install-error.png)
 
 E: Could not get lock /var/lib/dpkg/lock – open (11: Resource temporarily unavailable)
 
@@ -52,7 +52,7 @@ ps aux | grep -i apt
 ```
 产生如下输出：
 
-![](picture/apt-install-ps.png)
+![](picture/virtual-box-ubuntu/apt-install-ps.png)
 
 表示当前有进程在使用apt程序，可以等一会在使用该命令，原因时ubuntu18.04版本会每天定时更新和安全有关的deb包
 
