@@ -33,6 +33,12 @@ ubuntu 18.04
 sudo usermod -a -G vboxsf yuyaojiang
 reboot
 ```
+## 普通用户无法使用docker命令
+解决办法：将用户加入到docker组里
+```
+sudo usermod -a -G docker yuyaojiang
+reboot
+```
 
 ## apt install xxx
 
