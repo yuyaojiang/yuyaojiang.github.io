@@ -133,6 +133,14 @@ cps = 25 30
 
 通过远程连接工具即可登录
 
+## ubuntu虚拟机ping不通window10主机
+
+原因：window10主机的防火墙规则禁止了ICMP报文
+
+解决办法：开启window10的ICMP报文的防火墙规则
+
+操作步骤：控制面板->系统和安全->Windows Defender 防火墙->高级设置->入站规则->文件和打印机共享(回显请求-ICMPv4-In) 专用公用->开启
+
 ## 查看errno
 
 安装moreutils包
