@@ -70,7 +70,7 @@ ps aux | grep -i apt
 apt install tcpd
 ```
 
-2、安装telnetd和xinetd(一般都已安装)
+2、安装telnetd和xinetd
 
 ```
 apt install telnetd xinetd
@@ -125,6 +125,13 @@ cps = 25 30
  }
 ```
 
+### 重启xinetd服务
+
+```
+/etc/init.d/xinetd restart
+```
+
+通过远程连接工具即可登录
 
 ## 查看errno
 
