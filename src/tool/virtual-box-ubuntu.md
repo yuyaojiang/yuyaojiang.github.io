@@ -125,13 +125,48 @@ cps = 25 30
  }
 ```
 
-### 重启xinetd服务
+4、重启xinetd服务
 
 ```
 /etc/init.d/xinetd restart
 ```
 
 通过远程连接工具即可登录
+
+## ubuntu虚拟机开启ngnix服务
+
+1、安装nginx
+
+```
+sudo apt install nginx
+```
+2、调整防火墙
+
+允许nignx通过防火墙：
+
+```
+sudo ufw allow 'Nginx HTTP'
+```
+
+查看结果：
+
+```
+sudo ufw app list
+```
+![](./picture/virtual-box-ubuntu/nginx-ufw-app-list.png)
+
+3、查看nginx是否开启：
+
+```
+systemctl status nginx
+```
+![](./picture/virtual-box-ubuntu/nginx-systemctl-status-nginx.png)
+
+4、浏览器输入```http://ip```,结果为：
+
+![](./picture/virtual-box-ubuntu/nginx-httpip-result.png)
+
+
 
 ## ubuntu虚拟机ping不通window10主机
 

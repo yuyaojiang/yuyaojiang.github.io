@@ -170,6 +170,15 @@ void stopThreadedIO(void) {
 
 分析完IO线程的读写打开和关闭，下面来看IO线程如何处理IO:
 
+前面已经分析，在IOThreadMain函数总，IO线程根据io_threads_pending原子变量是否非零来判断是否有读写任务，io_threads_pending变量不为0时，进入到遍历链表的代码段中：
+
+![](./picture/IOThreadMain-2.png)
+
+读函数readQueryFromClient会调用postponeClientRead接口
+
+![](./picture/readQueryFromClient.png)
+
+![](./picture/postponeClientRead.png)
 
 
 
