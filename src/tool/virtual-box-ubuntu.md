@@ -166,6 +166,26 @@ systemctl status nginx
 
 ![](./picture/virtual-box-ubuntu/nginx-httpip-result.png)
 
+5、nignx 配置多个站点
+
+```
+mkdir -p /var/www/yuyaojiang.com
+cp index.html /var/www/yuyaojiang/
+chmod +r /var/www/yuyaojiang/index.html
+
+```
+
+接着
+```
+vim /etc/nginx/site-available/default
+
+```
+做如下修改：
+
+![](./picture/virtual-box-ubuntu/nginx-multi-point.png)
+
+
+
 
 
 ## ubuntu虚拟机ping不通window10主机
