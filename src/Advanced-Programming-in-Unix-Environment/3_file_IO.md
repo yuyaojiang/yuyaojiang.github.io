@@ -214,34 +214,34 @@ void test_open_creat()
 4. 测试`lseek,read,write`。在 `main`函数中调用 `test_lseek_read_write`函数：
 
 	```
-void test_lseek_read_write()
-{
-    M_TRACE("---------  Begin test_lseek_read_write()  ---------\n");
-    int fd=My_open_with_mode("test",O_RDWR|O_TRUNC|O_CREAT,S_IRUSR|S_IWUSR);  // 读写打开，并截断
-    if(-1==fd)  return; // 文件打开失败
-    char read_buffer[20];
-    char write_buffer[10];
+	void test_lseek_read_write()
+	{
+		M_TRACE("---------  Begin test_lseek_read_write()  ---------\n");
+		int fd=My_open_with_mode("test",O_RDWR|O_TRUNC|O_CREAT,S_IRUSR|S_IWUSR);  // 读写打开，并截断
+		if(-1==fd)  return; // 文件打开失败
+		char read_buffer[20];
+		char write_buffer[10];
 
-    strcpy(write_buffer,"123456789"); // write_buffer 填充数字
+		strcpy(write_buffer,"123456789"); // write_buffer 填充数字
 
-    My_read(fd,read_buffer,20); // 读文件，期望读 20 个字节
-    My_write(fd,write_buffer,10);// 写文件，期望写 10 个字节
-    My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
-    My_lseek(fd,0,SEEK_SET);// 定位文件到头部
-    My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
-    My_lseek(fd,10,SEEK_END);// 定位文件到尾部之后的 10 个字节
-    My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
-    My_write(fd,write_buffer,10);// 写文件，期望写 10 个字节
-    My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
-    My_lseek(fd,0,SEEK_SET);// 定位文件到头部
-    My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
-    My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
-    close(fd);
-    M_TRACE("---------  End test_lseek_read_write()  ---------\n\n");
+		My_read(fd,read_buffer,20); // 读文件，期望读 20 个字节
+		My_write(fd,write_buffer,10);// 写文件，期望写 10 个字节
+		My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
+		My_lseek(fd,0,SEEK_SET);// 定位文件到头部
+		My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
+		My_lseek(fd,10,SEEK_END);// 定位文件到尾部之后的 10 个字节
+		My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
+		My_write(fd,write_buffer,10);// 写文件，期望写 10 个字节
+		My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
+		My_lseek(fd,0,SEEK_SET);// 定位文件到头部
+		My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
+		My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
+		close(fd);
+		M_TRACE("---------  End test_lseek_read_write()  ---------\n\n");
 
-}
+	}
 	```
- 	 ![lseek_read_write](./imgs/file_IO/lseek_read_write.JPG) 
+ 	![lseek_read_write](./imgs/file_IO/lseek_read_write.JPG) 
 
 	测试序列为：
 	- 开始文件为空，所以读取20个字节的`read`只读取0
@@ -274,7 +274,7 @@ void test_lseek_read_write()
 
 	这些信息都是在打开文件时从磁盘读入内存的。如 i 结点包含了文件的所有者、文件长度、指向文件实际数据在磁盘上所在位置的指针等等。 v 结点结构和 i 结点结构实际上代表了文件的实体。
 
- 	 ![file_descriptor](./imgs/file_IO/file_descriptor.JPG) 
+ 	![file_descriptor](./imgs/file_IO/file_descriptor.JPG) 
 
 	现在假设进程 A 打开文件 `file1`，返回文件描述符 3；进程 B 也打开文件 `file2`，返回文件描述符 2：
 
@@ -362,7 +362,7 @@ void test_pread_pwrite()
 		- 成功： 返回新的文件描述符
 		- 失败： 返回 -1
 
-  	![dup_file_descriptor](./imgs/file_IO/dup_file_descriptor.JPG)
+	![dup_file_descriptor](./imgs/file_IO/dup_file_descriptor.JPG)
 
 	对于`dup`函数，返回的新的文件描述符一定是当前可用的文件描述符中最小的数字。对于`dup2`函数：
 	- 如果 `fd2`已经是被打开的文件描述符且不等于`fd`，则先将其关闭，然后再打开（<font color='red'>注意关闭再打开是一个原子操作</font>）
@@ -373,21 +373,20 @@ void test_pread_pwrite()
 	示例：在 `main`函数中调用`test_dup_dup2`函数:
 
 	```
-void test_dup_dup2()
-{
-    M_TRACE("---------  Begin test_dup_dup2()  ---------\n");
-    My_dup(0);  // fd 0 已经被打开的
-    My_dup(100); // fd 100 未被打开
-    My_dup2(0,0);  // fd 0 已经被打开的
-    My_dup2(100,100);  // fd 100 未被打开
-    My_dup2(0,100); // fd 0 已经被打开的, fd 100 未被打开
-    My_dup2(101,0); // fd 0 已经被打开的, fd 100 未被打开
-    M_TRACE("---------  End test_dup_dup2()  ---------\n\n");
-}
-
+	void test_dup_dup2()
+	{
+		M_TRACE("---------  Begin test_dup_dup2()  ---------\n");
+		My_dup(0);  // fd 0 已经被打开的
+		My_dup(100); // fd 100 未被打开
+		My_dup2(0,0);  // fd 0 已经被打开的
+		My_dup2(100,100);  // fd 100 未被打开
+		My_dup2(0,100); // fd 0 已经被打开的, fd 100 未被打开
+		My_dup2(101,0); // fd 0 已经被打开的, fd 100 未被打开
+		M_TRACE("---------  End test_dup_dup2()  ---------\n\n");
+	}
 	```
 
-  	![dup_dup2](./imgs/file_IO/dup_dup2.JPG) 
+	![dup_dup2](./imgs/file_IO/dup_dup2.JPG) 
 
 5. UNIX操作系统在内核中设有缓冲区，大多数磁盘 I/O 都通过缓冲区进行。当我们想文件写入数据时，内核通常都首先将数据复制到缓冲区中，然后排入队列，晚些时候再写入磁盘。这种方式称为延迟写。
 	- 当内核需要重用缓冲区来存放其他数据时，它会把所有延迟写的数据库写入磁盘
@@ -475,7 +474,7 @@ void test_fcntl()
 }
 	```
 
- 	 ![fcntl](./imgs/file_IO/fcntl.JPG) 
+	![fcntl](./imgs/file_IO/fcntl.JPG) 
 
 	注意：
 	- Linux 下，不支持文件状态标志： `F_EXEC与`， `F_SEARCH`
@@ -487,4 +486,4 @@ void test_fcntl()
 	- 大多数系统忽略`mod`参数
 	- 在 Linux 操作系统上， `/dev/fd/0`是个例外，它是个底层物理文件的符号链接。因此在它上面调用`creat` 会导致底层文件被截断
 
-  	![dev_fd](./imgs/file_IO/dev_fd.JPG) 
+	![dev_fd](./imgs/file_IO/dev_fd.JPG) 
