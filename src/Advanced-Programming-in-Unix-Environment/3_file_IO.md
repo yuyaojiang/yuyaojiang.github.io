@@ -108,7 +108,7 @@ void test_open_creat()
     M_TRACE("---------  End test_open_creat()  ---------\n\n");
 }
 	```
-  	![open_creat](./imgs/file_IO/open_creat.JPG) 
+![open_creat](./imgs/file_IO/open_creat.JPG) 
 
 	可以看到：
 
@@ -241,7 +241,7 @@ void test_open_creat()
 
 	}
 	```
- 	![lseek_read_write](./imgs/file_IO/lseek_read_write.JPG) 
+![lseek_read_write](./imgs/file_IO/lseek_read_write.JPG) 
 
 	测试序列为：
 	- 开始文件为空，所以读取20个字节的`read`只读取0
@@ -274,11 +274,11 @@ void test_open_creat()
 
 	这些信息都是在打开文件时从磁盘读入内存的。如 i 结点包含了文件的所有者、文件长度、指向文件实际数据在磁盘上所在位置的指针等等。 v 结点结构和 i 结点结构实际上代表了文件的实体。
 
- 	![file_descriptor](./imgs/file_IO/file_descriptor.JPG) 
+![file_descriptor](./imgs/file_IO/file_descriptor.JPG) 
 
 	现在假设进程 A 打开文件 `file1`，返回文件描述符 3；进程 B 也打开文件 `file2`，返回文件描述符 2：
 
-	![file_descriptor_process](./imgs/file_IO/file_descriptor_process.JPG)
+![file_descriptor_process](./imgs/file_IO/file_descriptor_process.JPG)
 
 	- 内核在文件表上新增两个表项：
 		- 这两个文件表项指向同一个 v 结点表项
@@ -325,27 +325,27 @@ void test_open_creat()
 	示例：在 `main`函数中调用 `test_pread_pwrite` 函数：
 
 	```
-void test_pread_pwrite()
-{
-    M_TRACE("---------  Begin test_pread_pwrite()  ---------\n");
-    int fd=My_open_with_mode("test",O_RDWR|O_TRUNC|O_CREAT,S_IRUSR|S_IWUSR);  // 读写打开，并截断
-    if(-1==fd)  return; // 文件打开失败
-    char read_buffer[20];
-    char write_buffer[20];
-    strcpy(write_buffer,"123456789"); // write_buffer 填充数字
+	void test_pread_pwrite()
+	{
+		M_TRACE("---------  Begin test_pread_pwrite()  ---------\n");
+		int fd=My_open_with_mode("test",O_RDWR|O_TRUNC|O_CREAT,S_IRUSR|S_IWUSR);  // 读写打开，并截断
+		if(-1==fd)  return; // 文件打开失败
+		char read_buffer[20];
+		char write_buffer[20];
+		strcpy(write_buffer,"123456789"); // write_buffer 填充数字
 
-    // 写文件，期望写 10 个字节
-    My_write(fd,write_buffer,10);
-    print_current_offset(fd);
-    My_pread(fd,read_buffer,5,0 );// 读文件，期望读  5 个字节,从 偏移为 0 开始
-    print_current_offset(fd);
-    My_pwrite(fd,write_buffer,10,8);// 写文件，期望写 10 个字节，从 偏移为 8 开始
-    print_current_offset(fd);
-    close(fd);
-    M_TRACE("---------  End test_pread_pwrite()  ---------\n\n");
-}
+		// 写文件，期望写 10 个字节
+		My_write(fd,write_buffer,10);
+		print_current_offset(fd);
+		My_pread(fd,read_buffer,5,0 );// 读文件，期望读  5 个字节,从 偏移为 0 开始
+		print_current_offset(fd);
+		My_pwrite(fd,write_buffer,10,8);// 写文件，期望写 10 个字节，从 偏移为 8 开始
+		print_current_offset(fd);
+		close(fd);
+		M_TRACE("---------  End test_pread_pwrite()  ---------\n\n");
+	}
 	```
- 	 ![pread_pwrite](./imgs/file_IO/pread_pwrite.JPG) 
+![pread_pwrite](./imgs/file_IO/pread_pwrite.JPG) 
 
 4. `dup/dup2`：复制一个现有的文件描述符：
 
@@ -362,7 +362,7 @@ void test_pread_pwrite()
 		- 成功： 返回新的文件描述符
 		- 失败： 返回 -1
 
-	![dup_file_descriptor](./imgs/file_IO/dup_file_descriptor.JPG)
+![dup_file_descriptor](./imgs/file_IO/dup_file_descriptor.JPG)
 
 	对于`dup`函数，返回的新的文件描述符一定是当前可用的文件描述符中最小的数字。对于`dup2`函数：
 	- 如果 `fd2`已经是被打开的文件描述符且不等于`fd`，则先将其关闭，然后再打开（<font color='red'>注意关闭再打开是一个原子操作</font>）
@@ -386,7 +386,7 @@ void test_pread_pwrite()
 	}
 	```
 
-	![dup_dup2](./imgs/file_IO/dup_dup2.JPG) 
+![dup_dup2](./imgs/file_IO/dup_dup2.JPG) 
 
 5. UNIX操作系统在内核中设有缓冲区，大多数磁盘 I/O 都通过缓冲区进行。当我们想文件写入数据时，内核通常都首先将数据复制到缓冲区中，然后排入队列，晚些时候再写入磁盘。这种方式称为延迟写。
 	- 当内核需要重用缓冲区来存放其他数据时，它会把所有延迟写的数据库写入磁盘
@@ -442,41 +442,42 @@ void test_pread_pwrite()
 	示例：在 `main`函数中调用`test_fcntl()`函数:
 	
 	```
-void test_fcntl()
-{
-    M_TRACE("---------  Begin test_fcntl()  ---------\n");
-    int fd=openat(AT_FDCWD,"test.txt",O_WRONLY|O_CREAT,S_IRUSR|S_IWUSR);;
-    if(-1==fd) // 打开文件失败
-        return ;
-    //测试 My_fcntl_GETFD 和 My_fcntl_DUPFD、My_fcntl_DUPFD_CLOEXEC
-    My_fcntl_GETFD(My_fcntl_DUPFD(fd,10));
-    My_fcntl_GETFD(My_fcntl_DUPFD(fd,0));
-    My_fcntl_GETFD(My_fcntl_DUPFD_CLOEXEC(fd,10));
-    My_fcntl_GETFD(My_fcntl_DUPFD_CLOEXEC(fd,0));
-    // 测试 My_fcntl_GETFD、My_fcntl_SETFD
-    My_fcntl_GETFD(fd);
-    My_fcntl_SETFD(fd,~FD_CLOEXEC);
-    My_fcntl_GETFD(fd);
-    My_fcntl_SETFD(fd,FD_CLOEXEC);
-    My_fcntl_GETFD(fd);
-    // 测试 My_fcntl_GETFL、My_fcntl_SETFL
-    print_fl(fd,My_fcntl_GETFL(fd));
-    My_fcntl_SETFL(fd,O_RDWR);
-    print_fl(fd,My_fcntl_GETFL(fd));
-    My_fcntl_SETFL(fd,O_RDONLY|O_NONBLOCK);
-    print_fl(fd,My_fcntl_GETFL(fd));
-    // 测试 My_fcntl_GETOWN、My_fcntl_SETOWN
-    My_fcntl_GETOWN(fd);
-    My_fcntl_SETOWN(fd,1);
-    My_fcntl_GETOWN(fd);
-    close(fd);
-    M_TRACE("---------  End test_fcntl()  ---------\n\n");
-}
+	void test_fcntl()
+	{
+		M_TRACE("---------  Begin test_fcntl()  ---------\n");
+		int fd=openat(AT_FDCWD,"test.txt",O_WRONLY|O_CREAT,S_IRUSR|S_IWUSR);;
+		if(-1==fd) // 打开文件失败
+			return ;
+		//测试 My_fcntl_GETFD 和 My_fcntl_DUPFD、My_fcntl_DUPFD_CLOEXEC
+		My_fcntl_GETFD(My_fcntl_DUPFD(fd,10));
+		My_fcntl_GETFD(My_fcntl_DUPFD(fd,0));
+		My_fcntl_GETFD(My_fcntl_DUPFD_CLOEXEC(fd,10));
+		My_fcntl_GETFD(My_fcntl_DUPFD_CLOEXEC(fd,0));
+		// 测试 My_fcntl_GETFD、My_fcntl_SETFD
+		My_fcntl_GETFD(fd);
+		My_fcntl_SETFD(fd,~FD_CLOEXEC);
+		My_fcntl_GETFD(fd);
+		My_fcntl_SETFD(fd,FD_CLOEXEC);
+		My_fcntl_GETFD(fd);
+		// 测试 My_fcntl_GETFL、My_fcntl_SETFL
+		print_fl(fd,My_fcntl_GETFL(fd));
+		My_fcntl_SETFL(fd,O_RDWR);
+		print_fl(fd,My_fcntl_GETFL(fd));
+		My_fcntl_SETFL(fd,O_RDONLY|O_NONBLOCK);
+		print_fl(fd,My_fcntl_GETFL(fd));
+		// 测试 My_fcntl_GETOWN、My_fcntl_SETOWN
+		My_fcntl_GETOWN(fd);
+		My_fcntl_SETOWN(fd,1);
+		My_fcntl_GETOWN(fd);
+		close(fd);
+		M_TRACE("---------  End test_fcntl()  ---------\n\n");
+	}
 	```
 
 	![fcntl](./imgs/file_IO/fcntl.JPG) 
 
 	注意：
+
 	- Linux 下，不支持文件状态标志： `F_EXEC与`， `F_SEARCH`
 	- `(result&O_ACCMODE)==O_RDONLY` 表达式中， `&`优先级较低
 	- `F_SETFL`命令：当文件读打开时，你无法将文件状态标志修改为`O_WRONLY`、`O_WRWR`这两种中任何一个。你只能修改：`O_APPEND`、`O_NONBLOCK`、`O_SYNC`、`O_DSYNC`、`O_RSYNC`、`F_ASYNC`、`O_ASYNC`等标志
