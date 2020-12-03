@@ -293,7 +293,7 @@ void test_open_creat()
 	
 	可能一个进程中有多个文件描述符指向同一个文件表项。
 
-	![dup_file_descriptor](./imgs/file_IO/dup_file_descriptor.JPG) 
+![dup_file_descriptor](./imgs/file_IO/dup_file_descriptor.JPG) 
  
 
 2. 原子操作：
