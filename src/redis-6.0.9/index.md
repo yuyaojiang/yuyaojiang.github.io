@@ -1,2 +1,2 @@
-## [redis多线程IO分析](./redis-multi-io-thread)
+## [redis多线程IO分析](./redis-multi-io-thread.md)
 

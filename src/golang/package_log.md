@@ -43,7 +43,9 @@ func main() {
 
 ### log.SetPrefix 设置log前缀
 
-```log.SetPrefix([yuyaojiang-go])```
+```
+log.SetPrefix([yuyaojiang-go])
+```
 
 示例：
 
