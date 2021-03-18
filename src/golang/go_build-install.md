@@ -8,7 +8,7 @@ go install: 用于生成库或者可执行文件，
 
             1、用来生成静态库(无main包)，编译后的包文件放在$GOPATH/pkg/目录下
 
-            2、生成可执行文件(有main包)，编译后的可执行文件放在$PATH/bin/目录下
+            2、生成可执行文件(有main包)，编译后的可执行文件放在$GOPATH/bin/目录下
 
 ### 相同点
 
@@ -18,9 +18,9 @@ go install: 用于生成库或者可执行文件，
 
 + go build不可以生成静态库文件
 
-+ go build生成的可执行文件在当前目录下，go install生成的可执行文件在$PATH/bin目录下
++ go build生成的可执行文件在当前目录下，go install生成的可执行文件在$GOPATH/bin目录下
 
-### 用法(当前目录为$PATH目录)
+### 用法(当前目录为$GOPATH目录)
 
 bin/ pkg/ src/三个目录
 
